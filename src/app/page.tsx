@@ -71,7 +71,10 @@ export default function Home() {
   const { isLoading, error, data } = useQuery<WeatherData>({
     queryKey: ['repoData'],
     queryFn: async () => {
-      const {data} = await axios.get("https://api.openweathermap.org/data/2.5/forecast?q=pune&appid=f826324c5e9f06779cb8827c52441ca1&cnt=2");
+      const {data} = await axios.get(
+        `https://api.openweathermap.org/data/2.5/forecast?q=pune&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=2`
+        
+        );
       return data;
     }
   });
