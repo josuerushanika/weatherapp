@@ -66,7 +66,6 @@ interface CityInfo {
   sunset: number;
 }
 
-
 export default function Home() {
   const { isLoading, error, data } = useQuery<WeatherData>({
     queryKey: ['repoData'],
