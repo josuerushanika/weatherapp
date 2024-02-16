@@ -4,6 +4,8 @@ import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import { useQuery } from "react-query";
 import axios from "axios";
+import { format, parseISO } from "date-fns";
+import Container from "@/components/Container";
 
 //https://api.openweathermap.org/data/2.5/forecast?q=pune&appid=f826324c5e9f06779cb8827c52441ca1&cnt=56
 
@@ -93,12 +95,14 @@ export default function Home() {
           <div>
             <h2 className="flex gap-1 text-2xl items-end"> 
               <p>{format(parseISO(firstData?.dt_txt ?? ""), "EEE")}</p>
+              <p className="text-lg">{format(parseISO(firstData?.dt_txt ?? ""), "dd.MM.yyyy")}</p>
              </h2>
+            <Container>
+
+            </Container>
           </div>
         </section>
-        <section>
-
-        </section>
+      
       </main>
     </div>
   );
