@@ -97,8 +97,10 @@ export default function Home() {
               <p>{format(parseISO(firstData?.dt_txt ?? ""), "EEE")}</p>
               <p className="text-lg">{format(parseISO(firstData?.dt_txt ?? ""), "dd.MM.yyyy")}</p>
              </h2>
-            <Container>
-
+            <Container className=" gap-10 px-6 items-center">
+                 <div className="flex flex-col px-4">
+                      
+                 </div>
             </Container>
           </div>
         </section>
