@@ -20,7 +20,7 @@ export default function Navbar({}: Props) {
           <p className="text-slate-900/80 text-sm">India</p>
           <div>
             {/*Search Box Components*/}
-            <SearchBox />
+            <SearchBox value={""} onChange={undefined} onSubmit={undefined} />
           </div>
         </section>
       </div>
