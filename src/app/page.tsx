@@ -7,6 +7,7 @@ import axios from "axios";
 import { format, parseISO } from "date-fns";
 import Container from "@/components/Container";
 import { convertKelvinToCelsius } from "@/utils/convertKelvinToCelsius";
+import WeatherIcon from "@/components/WeatherIcon";
 
 //https://api.openweathermap.org/data/2.5/forecast?q=pune&appid=f826324c5e9f06779cb8827c52441ca1&cnt=56
 
@@ -129,6 +130,7 @@ export default function Home() {
                     className="flex flex-col justify-between gap-2 items-center text-xs font-semibold"
                   >
                     <p className="whitespace-nowrap">{format(parseISO(d.dt_txt), "h:mm a")}</p>
+                    <WeatherIcon iconName={d.weather[0].icon}/>
                     <p>{convertKelvinToCelsius(d?.main.temp ?? 0)}°</p>
                   </div>
                 ))}
