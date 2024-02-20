@@ -109,14 +109,14 @@ export default function Home() {
                 </span>
                 <p className="text-xs space-x-1 whitespace-nowrap">
                   <span>
-                    {" "}
-                    {convertKelvinToCelsius(firstData?.main.temp_min ?? 0)}{" "}
+                   
+                    {convertKelvinToCelsius(firstData?.main.temp_min ?? 0)}
                   </span>
                   <span>
-                    {" "}
+                  
                     {convertKelvinToCelsius(
                       firstData?.main.temp_max ?? 0
-                    )}°↑{" "}
+                    )}°↑
                   </span>
                 </p>
               </div>
@@ -128,7 +128,8 @@ export default function Home() {
                     key={i}
                     className="flex flex-col justify-between gap-2 items-center text-xs font-semibold"
                   >
-                    <p>{format(parseISO(d.dt_txt), "h:mm a")}</p>
+                    <p className="whitespace-nowrap">{format(parseISO(d.dt_txt), "h:mm a")}</p>
+                    <p>{convertKelvinToCelsius(d?.main.temp ?? 0)}°</p>
                   </div>
                 ))}
               </div>
