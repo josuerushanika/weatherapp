@@ -9,8 +9,8 @@ import Container from "@/components/Container";
 import { convertKelvinToCelsius } from "@/utils/convertKelvinToCelsius";
 import WeatherIcon from "@/components/WeatherIcon";
 import { getDayOrNightIcon } from "@/utils/getDayOrNightIcon";
-import { WeatherDetails } from "@/components/WeatherDetails";
 import { metersToKilometers } from "@/utils/metersToKilometers";
+import WeatherDetails from "@/components/WeatherDetails";
 
 //https://api.openweathermap.org/data/2.5/forecast?q=pune&appid=f826324c5e9f06779cb8827c52441ca1&cnt=56
 
@@ -156,7 +156,7 @@ export default function Home() {
             </Container>
             <>
               <Container className="bg-yellow-300/80 px-6 gap-4 justify-between overflow-x-auto">
-                <WeatherDetails visability={metersToKilometers(firstData?.visibility ?? 10000 )} airPressure ={`${firstData?.main.pressure} hPa`}/>
+                <WeatherDetails visability={metersToKilometers(firstData?.visibility ?? 10000)} airPressure={`${firstData?.main.pressure} hPa`} humidity={""} windSpeed={""} sunrise={""} sunset={""}/>
               </Container>
             </>
             {/* rigth */}
