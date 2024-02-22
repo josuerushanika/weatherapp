@@ -12,6 +12,7 @@ import { getDayOrNightIcon } from "@/utils/getDayOrNightIcon";
 import { metersToKilometers } from "@/utils/metersToKilometers";
 import WeatherDetails from "@/components/WeatherDetails";
 import { convertWindSpeed } from "@/utils/convetWindSpeed";
+import ForecastWeatherDetail from "@/components/ForecastWeatherDetail";
 
 interface WeatherData {
   cod: string;
@@ -176,6 +177,7 @@ export default function Home() {
 
         <section className="flex w-full flex-col gap-4">
           <p className="text-2xl"> Forscat (7days) </p>
+          <ForecastWeatherDetail/>
         </section>
       </main>
     </div>
