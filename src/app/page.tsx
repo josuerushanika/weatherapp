@@ -196,8 +196,8 @@ const firstDataForEachDate = uniqueDates.map((date) => {
 
         <section className="flex w-full flex-col gap-4">
           <p className="text-2xl"> Forscat (7days) </p>
-          <ForecastWeatherDetail/>
-        </section>
+            {firstDataForEachDate.map((d,i) =>( <ForecastWeatherDetail key={i}/> ))} 
+              </section>
       </main>
     </div>
   );
