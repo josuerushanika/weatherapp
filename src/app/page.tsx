@@ -85,8 +85,27 @@ export default function Home() {
   });
 
   const firstData = data?.list[0];
-
+  
   console.log("data", data);
+
+  const uniqueDates = [
+    ...new set (
+      data?.list.map (
+        (entry) => new Date(entry.dt * 1000).toISOString().split("T")[0]
+      )
+    )
+  ]
+// Filtering data to get the first entry after 6 AM for each unique date
+
+const firstDataForEachDate = uniqueDates.map((date) => {
+  return data?.list.find((entry) => {
+     const entryDate = new Date(entry.dt * 1000).toISOString().split("T")[0];
+     const entryTime = new Date(entry.dt * 1000).getHours();
+     return entryDate === date && entryTime >= 6;
+  })
+})
+
+
   if (isLoading)
     return (
       <div className="flex items-center min-h-screen justify-center">
