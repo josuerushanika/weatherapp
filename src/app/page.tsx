@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import { useQuery } from "react-query";
 import axios from "axios";
@@ -85,26 +84,25 @@ export default function Home() {
   });
 
   const firstData = data?.list[0];
-  
+
   console.log("data", data);
 
   const uniqueDates = [
-    ...new set (
-      data?.list.map (
+    ...new set(
+      data?.list.map(
         (entry) => new Date(entry.dt * 1000).toISOString().split("T")[0]
       )
-    )
-  ]
-// Filtering data to get the first entry after 6 AM for each unique date
+    ),
+  ];
+  // Filtering data to get the first entry after 6 AM for each unique date
 
-const firstDataForEachDate = uniqueDates.map((date) => {
-  return data?.list.find((entry) => {
-     const entryDate = new Date(entry.dt * 1000).toISOString().split("T")[0];
-     const entryTime = new Date(entry.dt * 1000).getHours();
-     return entryDate === date && entryTime >= 6;
-  })
-})
-
+  const firstDataForEachDate = uniqueDates.map((date) => {
+    return data?.list.find((entry) => {
+      const entryDate = new Date(entry.dt * 1000).toISOString().split("T")[0];
+      const entryTime = new Date(entry.dt * 1000).getHours();
+      return entryDate === date && entryTime >= 6;
+    });
+  });
 
   if (isLoading)
     return (
@@ -181,23 +179,50 @@ const firstDataForEachDate = uniqueDates.map((date) => {
                   )}
                   airPressure={`${firstData?.main.pressure} hPa`}
                   humidity={`${firstData?.main.pressure} %`}
-                  sunrise={format(fromUnixTime(data?.city.sunrise ?? 1702949452), "H:mm")}
-                  sunset={format(fromUnixTime(data?.city.sunrise ?? 1702949452), "H:mm")}
+                  sunrise={format(
+                    fromUnixTime(data?.city.sunrise ?? 1702949452),
+                    "H:mm"
+                  )}
+                  sunset={format(
+                    fromUnixTime(data?.city.sunrise ?? 1702949452),
+                    "H:mm"
+                  )}
                   windSpeed={convertWindSpeed(firstData?.wind.speed ?? 1.64)}
-              
-      
                 />
               </Container>
             </>
             {/* rigth */}
           </div>
         </section>
-        {/* 7 day forscat data */}
-
-        <section className="flex w-full flex-col gap-4">
-          <p className="text-2xl"> Forscat (7days) </p>
-            {firstDataForEachDate.map((d,i) =>( <ForecastWeatherDetail key={i}/> ))} 
-              </section>
+        {/* 7 day forcast data  */}
+        <section className="flex w-full flex-col gap-4  ">
+          <p className="text-2xl">Forcast (7 days)</p>
+          {firstDataForEachDate.map((d, i) => (
+            <ForecastWeatherDetail
+              key={i}
+              description={d?.weather[0].description ?? ""}
+              weatehrIcon={d?.weather[0].icon ?? "01d"}
+              date={d ? format(parseISO(d.dt_txt), "dd.MM") : ""}
+              day={d ? format(parseISO(d.dt_txt), "dd.MM") : "EEEE"}
+              feels_like={d?.main.feels_like ?? 0}
+              temp={d?.main.temp ?? 0}
+              temp_max={d?.main.temp_max ?? 0}
+              temp_min={d?.main.temp_min ?? 0}
+              airPressure={`${d?.main.pressure} hPa `}
+              humidity={`${d?.main.humidity}% `}
+              sunrise={format(
+                fromUnixTime(data?.city.sunrise ?? 1702517657),
+                "H:mm"
+              )}
+              sunset={format(
+                fromUnixTime(data?.city.sunset ?? 1702517657),
+                "H:mm"
+              )}
+              visability={`${metersToKilometers(d?.visibility ?? 10000)} `}
+              windSpeed={`${convertWindSpeed(d?.wind.speed ?? 1.64)} `}
+            />
+          ))}
+        </section>
       </main>
     </div>
   );
