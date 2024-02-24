@@ -4,8 +4,10 @@ import React from "react";
 import { MdWbSunny } from "react-icons/md";
 import { MdMyLocation } from "react-icons/md";
 import { MdOutlineLocationOn } from "react-icons/md";
+
 import SearchBox from "./SearchBox";
 import { useState} from "react";
+
 import axios from "axios";
 
 const API_KEY = process.env.NEXT_PUBLIC_WEATHER_KEY;
