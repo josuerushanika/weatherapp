@@ -9,7 +9,7 @@ import SearchBox from "./SearchBox";
 import { useState } from "react";
 import axios from "axios";
 import { useAtom } from "jotai";
-import { placeAtom } from "@/app/atoms";
+import { loadingCityAtom, placeAtom } from "@/app/atoms";
 
 const API_KEY = process.env.NEXT_PUBLIC_WEATHER_KEY;
 
@@ -22,6 +22,7 @@ export default function Navbar({ location }: Props) {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [place, setPlace] = useAtom(placeAtom);
+  const [_, setLoadingCity] = useAtom(loadingCityAtom);
 
   async function handleInputChange(value: string) {
     setCity(value);
@@ -51,13 +52,18 @@ export default function Navbar({ location }: Props) {
   }
 
   function handleSubmitSearch(e: React.FormEvent<HTMLFormElement>) {
+    setLoadingCity(true);
     e.preventDefault();
     if (suggestions.length == 0) {
       setError("Location not found");
+      setLoadingCity(false);
     } else {
       setError("");
-      setPlace(city);
-      setShowSuggestions(false);
+      setTimeout(() => {
+        setLoadingCity(false);
+        setPlace(city);
+        setShowSuggestions(false);
+      }, 500);
     }
   }
 

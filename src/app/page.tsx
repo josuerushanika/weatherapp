@@ -13,7 +13,7 @@ import WeatherDetails from "@/components/WeatherDetails";
 import { convertWindSpeed } from "@/utils/convetWindSpeed";
 import ForecastWeatherDetail from "@/components/ForecastWeatherDetail";
 import { useAtom } from "jotai";
-import { placeAtom } from "./atoms";
+import { loadingCityAtom, placeAtom } from "./atoms";
 import { useEffect } from "react";
 
 interface WeatherData {
@@ -77,6 +77,7 @@ interface CityInfo {
 
 export default function Home() {
   const [place, setPlace] = useAtom(placeAtom);
+  const [_, setLoadingCity] = useAtom(loadingCityAtom);
 
   const { isLoading, error, data, refetch } = useQuery<WeatherData>({
     queryKey: ["repoData"],
