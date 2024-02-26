@@ -18,7 +18,7 @@ export default function Navbar({}: Props) {
   const [error, setError] = useState("");
 
   const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [showSuggestions, setSuggestions] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   async function handleInputChange(value: string) {
     setCity(value);
@@ -40,6 +40,11 @@ export default function Navbar({}: Props) {
       setSuggestions([]);
       setShowSuggestions(true);
     }
+  }
+
+  function handleSuggestionClick(value: string) {
+    setCity(value);
+    setShowSuggestions(false);
   }
 
   return (
