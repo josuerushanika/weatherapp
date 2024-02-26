@@ -6,7 +6,7 @@ import { MdMyLocation } from "react-icons/md";
 import { MdOutlineLocationOn } from "react-icons/md";
 
 import SearchBox from "./SearchBox";
-import { useState} from "react";
+import { useState } from "react";
 import axios from "axios";
 
 const API_KEY = process.env.NEXT_PUBLIC_WEATHER_KEY;
@@ -47,6 +47,16 @@ export default function Navbar({}: Props) {
     setShowSuggestions(false);
   }
 
+  function handleSubmitSearch(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (suggestions.length == 0) {
+      setError("Location not found");
+    } else {
+      setError("");
+      setShowSuggestions(false);
+    }
+  }
+
   return (
     <nav className="shadow-sm sticky top-0 left-0 z-50 bg-white">
       <div className="h-[80px] w-full flex justify-between items-center max-w-7x1 px-3 mx-auto">
@@ -62,10 +72,17 @@ export default function Navbar({}: Props) {
             {/*Search Box Components*/}
             <SearchBox
               value={city}
-              // onSubmit={}
+              onSubmit={handleSubmitSearch}
               onChange={(e) => handleInputChange(e.target.value)}
             />
-            <suggestionBox />
+            <SuggetionBox
+              {...{
+                showSuggestions,
+                suggestions,
+                handleSuggestionClick,
+                error,
+              }}
+            />
           </div>
         </section>
       </div>
@@ -77,7 +94,7 @@ function SuggetionBox({
   showSuggestions,
   suggestions,
   handleSuggestionClick,
-  error
+  error,
 }: {
   showSuggestions: boolean;
   suggestions: string[];
