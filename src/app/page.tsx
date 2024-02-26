@@ -16,15 +16,7 @@ import { useAtom } from "jotai";
 import { loadingCityAtom, placeAtom } from "./atoms";
 import { useEffect } from "react";
 
-interface WeatherData {
-  cod: string;
-  message: number;
-  cnt: number;
-  list: WeatherEntry[];
-  city: CityInfo;
-}
-
-interface WeatherEntry {
+interface WeatherDetail {
   dt: number;
   main: {
     temp: number;
@@ -37,7 +29,12 @@ interface WeatherEntry {
     humidity: number;
     temp_kf: number;
   };
-  weather: WeatherInfo[];
+  weather: {
+    id: number;
+    main: string;
+    description: string;
+    icon: string;
+  }[];
   clouds: {
     all: number;
   };
@@ -54,40 +51,39 @@ interface WeatherEntry {
   dt_txt: string;
 }
 
-interface WeatherInfo {
-  id: number;
-  main: string;
-  description: string;
-  icon: string;
-}
-
-interface CityInfo {
-  id: number;
-  name: string;
-  coord: {
-    lat: number;
-    lon: number;
+interface WeatherData {
+  cod: string;
+  message: number;
+  cnt: number;
+  list: WeatherDetail[];
+  city: {
+    id: number;
+    name: string;
+    coord: {
+      lat: number;
+      lon: number;
+    };
+    country: string;
+    population: number;
+    timezone: number;
+    sunrise: number;
+    sunset: number;
   };
-  country: string;
-  population: number;
-  timezone: number;
-  sunrise: number;
-  sunset: number;
 }
 
 export default function Home() {
   const [place, setPlace] = useAtom(placeAtom);
   const [loadingCity] = useAtom(loadingCityAtom);
 
-  const { isLoading, error, data, refetch } = useQuery<WeatherData>({
-    queryKey: ["repoData"],
-    queryFn: async () => {
+  const { isLoading, error, data, refetch } = useQuery<WeatherData>(
+    "repoData",
+    async () => {
       const { data } = await axios.get(
-        `https://api.openweathermap.org/data/2.5/forecast?q=${place}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=2`
+        `https://api.openweathermap.org/data/2.5/forecast?q=${place}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56`
       );
       return data;
-    },
-  });
+    }
+  );
 
   useEffect(() => {
     refetch();
@@ -104,11 +100,10 @@ export default function Home() {
       data?.list.map(
         (entry) => new Date(entry.dt * 1000).toISOString().split("T")[0]
       )
-    ),
+    )
   ];
 
   // Filtering data to get the first entry after 6 AM for each unique date
-
   const firstDataForEachDate = uniqueDates.map((date) => {
     return data?.list.find((entry) => {
       const entryDate = new Date(entry.dt * 1000).toISOString().split("T")[0];
@@ -123,7 +118,13 @@ export default function Home() {
         <p className="animate-bounce">Loading...</p>
       </div>
     );
-
+  if (error)
+    return (
+      <div className="flex items-center min-h-screen justify-center">
+        {/* @ts-ignore */}
+        <p className="text-red-400">{error.message}</p>
+      </div>
+    );
   return (
     <div className="flex flex-col gap-4 bg-gray-100 min-h-screen ">
       <Navbar location={data?.city.name} />
